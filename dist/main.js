@@ -1,0 +1,1 @@
+(()=>{"use strict";!function(t){const e=document.getElementById("content");[{title:"item one"},{title:"item two"}].map((t=>{let n=`\n            <div>\n                <p>This item is ${t.title}</p>\n            </div>\n        `;e.innerHTML+=n}))}()})();
