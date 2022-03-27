@@ -1,5 +1,50 @@
-@media only screen and (max-width: 600px) {
-    #projects {
-      visibility: hidden;
-    }
+
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
+.main-nav {
+  grid-area: navbar;
+}
+
+.content-list {
+  grid-area: content-list;
+}
+
+.content-area {
+  grid-area: content-area;
+}
+
+.wrapper {
+  display: grid;
+  gap: 20px;
+  grid-template-areas:
+    "navbar"
+    "content-list"
+    "content-area"
+}
+
+@media only screen and (min-width: 960px) {
+  .hidden {
+    display: flex;
   }
+
+  #navbar {
+    display: none;
+  }
+  
+.wrapper {
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas:
+    "content-list content-area"
+    "content-list content-area"
+}
+
+}
+
+  

@@ -1,24 +1,27 @@
-function rendertodos(todolist) {
+function rendertodolist(ToDoArray) {
     // we check for nulls at highest level so assume not null
     const content = document.getElementById('content')
-    todolist.map(item => {
-        let itemhtml = `
-                <div>
-                    <p>This item is ${item.title}</p>
-                </div>
-            `;
-        content.innerHTML += itemhtml
+    ToDoArray.map(item => {
+        content.innerHTML += generateToDoHTML(item)
     })
+}
+
+function generateToDoHTML(todoObject) {
+    let todohtml = `
+    <div class="todo">
+        <p>${todoObject.title}</p>
+        <p>${todoObject.dueDate}</p>
+    </div>
+    `;
+
+    return todohtml
 }
 
 function renderNav() {
     const content = document.getElementById('navbar')
     let navHtml = `
         <div class=navbar>
-            <ul id=navlist>
-                <li id="projects-link">Projects</li>
-                <li id="home-link">Home</li>
-            </ul>
+        <svg id = "menuBar" xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" fill="currentColor"><path d="M1 0h12a1 1 0 0 1 0 2H1a1 1 0 1 1 0-2zm0 8h12a1 1 0 0 1 0 2H1a1 1 0 1 1 0-2zm0-4h12a1 1 0 0 1 0 2H1a1 1 0 1 1 0-2z"></path></svg>
         </div>
     `;
     content.innerHTML += navHtml;
@@ -33,11 +36,18 @@ function renderProjects(projectsList) {
         let projectHTML = `
         <li id="${project.id}">${project.title}</li>
         `;
-        console.log(projectHTML);
         projects.innerHTML += projectHTML;
         
     })
     
 }
 
-export { rendertodos, renderNav, renderProjects }
+function renderNewToDoButton() {
+    const content = document.getElementById('content')
+    let buttonHTML = `
+    <svg id = "newtodo" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" fill="currentColor"><path d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-7v4a1 1 0 0 1-2 0v-4H5a1 1 0 0 1 0-2h4V5a1 1 0 1 1 2 0v4h4a1 1 0 0 1 0 2h-4z"></path></svg>
+    `;
+    content.innerHTML += buttonHTML;
+}
+
+export { rendertodolist, renderNav, renderProjects, renderNewToDoButton }
