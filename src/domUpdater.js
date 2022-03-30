@@ -34,7 +34,7 @@ function renderProjects(projectsList) {
     // we check if list is null in index so assume not null
     projectsList.map(project => {
         let projectHTML = `
-        <li id="${project.id}">${project.title}</li>
+        <li id="${project.projectID}">${project.title}</li>
         `;
         projects.innerHTML += projectHTML;
         
