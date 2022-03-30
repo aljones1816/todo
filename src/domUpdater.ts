@@ -1,8 +1,9 @@
-function rendertodolist(ToDoArray) {
-    // we check for nulls at highest level so assume not null
-    const content = document.getElementById('content')
-    ToDoArray.map(item => {
-        content.innerHTML += generateToDoHTML(item)
+function rendertodolist(projectArray: , projectID: string) {
+    //filter project array to only include project with id = projectID
+    let projects = projectArray.filter(project => project.projectID === projectIDArray[0])
+    let content = document.getElementById('content')
+    projects.map(project => {
+        content.innerHTML += generateToDoHTML(project.ToDos)
     })
 }
 
@@ -11,6 +12,7 @@ function generateToDoHTML(todoObject) {
     <div class="todo">
         <p>${todoObject.title}</p>
         <p>${todoObject.dueDate}</p>
+        <p>${todoObject.status}</p>
     </div>
     `;
 
