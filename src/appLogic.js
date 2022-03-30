@@ -1,30 +1,47 @@
 function fetchData(schema) {
-    return JSON.parse(window.localStorage.getItem(schema));
+    let fetchedData = JSON.parse(window.localStorage.getItem(schema) || '[]');
+    console.log('the data I just fetched is:', fetchedData);
+    if (schema === 'projects' && fetchedData.length != 0) {
+        return fetchedData.map(project => createProject(project.title, project.projectID, project.ToDos));
+    } else return fetchedData;
 }
 
 function putData(schema, newData) {
     let currentdata = fetchData(schema)
-    if (!currentdata) {
-        currentdata = []
-    }
     currentdata.push(newData)
     window.localStorage.setItem(schema, JSON.stringify(currentdata));
 }
 
 
-function createProject(title, projectID) {
+function createProject(title, projectID, ToDos = []) {
     title;
     projectID;
-    return {title, projectID}
+    ToDos;
+    
+    function addToDo(title, description, dueDate, priority, projectID) {
+        let newToDo = createToDo(title, description, dueDate, priority, projectID);
+        ToDos.push(newToDo);
+    }
+
+    function DeleteToDo(ToDoID) {
+        let index = ToDos.findIndex(function (ToDo) {
+            return ToDo.ToDoID === ToDoID;
+        });
+        ToDos.splice(index, 1);
+    }
+
+    return {title, projectID, ToDos, addToDo, DeleteToDo};
 }
 
-function createToDo(title, description, dueDate, priority, projectID ) {
+function createToDo(title, description, dueDate, priority, projectID, status = 'todo') {
     title;
     description;
     dueDate;
     priority;
     projectID;
-    return { title, description, dueDate, priority, projectID };
+    status;
+
+    return { title, description, dueDate, priority, projectID, status };
   };
 
 function toggleProjectMenu() {
@@ -42,3 +59,4 @@ function toggleProjectMenu() {
 }
 
 export { putData, toggleProjectMenu, fetchData, createProject, createToDo }
+
