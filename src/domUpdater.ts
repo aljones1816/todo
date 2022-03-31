@@ -1,13 +1,20 @@
-function rendertodolist(projectArray: , projectID: string) {
+import { project, todo } from './appLogic';
+
+function rendertodolist(projectArray: Array<project>, projectID: string) {
     //filter project array to only include project with id = projectID
-    let projects = projectArray.filter(project => project.projectID === projectIDArray[0])
+    let projects = projectArray.filter(project => project.projectID === projectID)
+    console.log("the data I fetched is:", projectArray)
+    console.log("the projects are:", projects)
     let content = document.getElementById('content')
     projects.map(project => {
-        content.innerHTML += generateToDoHTML(project.ToDos)
+        project.ToDos.map(todo => {
+            let todohtml = generateToDoHTML(todo)
+            content.innerHTML += todohtml
     })
+})
 }
 
-function generateToDoHTML(todoObject) {
+function generateToDoHTML(todoObject: todo) {
     let todohtml = `
     <div class="todo">
         <p>${todoObject.title}</p>
@@ -29,7 +36,7 @@ function renderNav() {
     content.innerHTML += navHtml;
 }
 
-function renderProjects(projectsList) {
+function renderProjects(projectsList: Array<project>) {
     const content = document.getElementById('projects')
     const projects = document.createElement('ul');
     content.appendChild(projects);

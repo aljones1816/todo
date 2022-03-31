@@ -1,5 +1,5 @@
-import { renderNav, renderProjects, renderNewToDoButton } from '/src/domUpdater.js'
-import { addListItem, toggleProjectMenu } from '/src/appLogic.js'
+import { renderNav, renderProjects, renderNewToDoButton, rendertodolist } from './domUpdater';
+import { toggleProjectMenu } from './appLogic'
 import '/src/projectsStyles.css';
 import { createProject, createToDo, fetchData, putData } from './appLogic';
 
@@ -9,7 +9,7 @@ function initalizeApp() {
 
     const currentProjects = fetchData("projects")
     renderProjects(currentProjects);
-   
+    rendertodolist(currentProjects, '3');
     
     document.getElementById("menuBar").addEventListener("click", () => {
         toggleProjectMenu();
