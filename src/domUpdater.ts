@@ -1,6 +1,6 @@
 function rendertodolist(projectArray: , projectID: string) {
     //filter project array to only include project with id = projectID
-    let projects = projectArray.filter(project => project.projectID === projectIDArray[0])
+    let projects = projectArray.filter(project => project.projectID === projectID)
     let content = document.getElementById('content')
     projects.map(project => {
         content.innerHTML += generateToDoHTML(project.ToDos)
