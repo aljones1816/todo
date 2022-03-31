@@ -1,5 +1,5 @@
 // define a project type
-interface project {
+export interface project {
     title: string;
     projectID: string;
     ToDos: todo[];
@@ -8,7 +8,7 @@ interface project {
 }
 
 //define todo type
-interface todo {
+export interface todo {
     title: string;
     description: string;
     dueDate: string;
