@@ -17,7 +17,7 @@ function rendertodolist(projectArray: Array<project>, projectID: string) {
 
 function generateToDoHTML(todoObject: todo) {
     let todohtml = `
-    <div class="todo">
+    <div class="todo" id="${todoObject.ToDoID}">
         <p>${todoObject.title}</p>
         <p>${todoObject.dueDate}</p>
         <p>${todoObject.status}</p>
