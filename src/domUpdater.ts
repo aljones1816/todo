@@ -60,4 +60,27 @@ function renderNewToDoButton() {
     content.innerHTML += buttonHTML;
 }
 
+export const renderNewToDoForm = () => {
+    const content = document.getElementById('content')
+    let formHTML = `
+    <div class="newtodoform">
+        <form id="newtodoform">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title">
+            <label for="duedate">Due Date</label>
+            <input type="date" id="duedate" name="duedate">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="todo">To Do</option>
+                <option value="inprogress">In Progress</option>
+                <option value="done">Done</option>
+            </select>
+            <button id="submitNewToDo" type="submit">Submit</button>
+        </form>
+    </div>
+    `;
+    content.innerHTML += formHTML;
+}
+
+
 export { rendertodolist, renderNav, renderProjects, renderNewToDoButton }

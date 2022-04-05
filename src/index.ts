@@ -1,4 +1,4 @@
-import { renderNav, renderProjects, renderNewToDoButton, rendertodolist } from './domUpdater';
+import { renderNav, renderProjects, renderNewToDoButton, rendertodolist, renderNewToDoForm } from './domUpdater';
 import { toggleProjectMenu } from './appLogic'
 import '/src/projectsStyles.css';
 import { createProject, createToDo, fetchData, putData } from './appLogic';
@@ -17,6 +17,9 @@ function initalizeApp() {
 
     renderNewToDoButton();
     
+    document.getElementById("newtodo").addEventListener("click", () => {
+        renderNewToDoForm();
+    })
 
 }
 

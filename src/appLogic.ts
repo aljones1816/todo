@@ -31,6 +31,8 @@ function putData(schema: string, newData: object) {
     currentdata.push(newData)
     window.localStorage.setItem(schema, JSON.stringify(currentdata));
 }
+
+
  
 
 function createProject(title: string, projectID: string, ToDos: todo[]) {
