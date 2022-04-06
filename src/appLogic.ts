@@ -32,7 +32,7 @@ function putData(schema: string, newData: object) {
     window.localStorage.setItem(schema, JSON.stringify(currentdata));
 }
 
-
+let variable: number= 1;
  
 
 function createProject(title: string, projectID: string, ToDos: todo[]) {
