@@ -3,6 +3,7 @@ import createUser from "./AppLogic/User";
 import { Storage } from "./AppLogic/Storage";
 import renderProjects from "./UI/projects";
 import rendertodolist from "./UI/todolist";
+import './globalStyles.css';
 
 function initalizeApp() {
   // render the navbar
