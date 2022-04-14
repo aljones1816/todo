@@ -1,5 +1,4 @@
-import { Project } from "./Project";
-import createProject from "./Project";
+import { createProject, Project } from "./Project";
 
 const Storage = () => {
   function fetchData(schema: string) {

@@ -9,11 +9,7 @@ export interface Project {
   deleteToDo: () => void;
 }
 
-export default function createProject(
-  title: string,
-  projectID: string,
-  ToDos: ToDo[]
-) {
+export function createProject(title: string, projectID: string, ToDos: ToDo[]) {
   projectID;
 
   function addToDo(todo: ToDo) {
@@ -27,9 +23,5 @@ export default function createProject(
     ToDos.splice(index, 1);
   }
 
-  function getProjectID() {
-    return projectID;
-  }
-
-  return { title, ToDos, addToDo, DeleteToDo, getProjectID };
+  return { title, ToDos, addToDo, DeleteToDo, projectID };
 }

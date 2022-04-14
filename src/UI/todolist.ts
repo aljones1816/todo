@@ -3,20 +3,13 @@ import { ToDo } from "../AppLogic/ToDo";
 
 export default function rendertodolist(
   projectArray: Project[],
-  projectID: string
+  projectID: string[],
+  projectHeading: string
 ) {
-
-  projectArray.forEach((project) => {
-    console.log(project.getProjectID());
+  //filter project array to only include projects with id in the projectID array
+  let currentProjects = projectArray.filter(function (project) {
+    return projectID.includes(project.projectID);
   });
-  //filter project array to only include project with id = projectID
-  let project = projectArray.filter(
-    (project) => project.getProjectID() === projectID
-    
-  );
-
-  
-  
 
   function generateToDoHTML(todoObject: ToDo) {
     let todohtml = `
@@ -31,19 +24,21 @@ export default function rendertodolist(
   }
 
   function generateToDoListHTML() {
-   
     let todolist = document.createElement("div");
+    todolist.setAttribute("id", "toDoList");
     let todolistUL = document.createElement("ul");
     let header = document.createElement("h2");
-    header.innerText = "To Do List";
+    header.innerText = projectHeading;
     todolist.appendChild(header);
 
-    project[0].ToDos.map((todo) => {
-      let todohtml = generateToDoHTML(todo);
-      todolistUL.innerHTML += todohtml;
-    });
+    currentProjects.forEach((project) => {
+      project.ToDos.map((todo) => {
+        let todohtml = generateToDoHTML(todo);
+        todolistUL.innerHTML += todohtml;
+      });
 
-    todolist.appendChild(todolistUL);
+      todolist.appendChild(todolistUL);
+    });
 
     return { todolist };
   }

@@ -19,7 +19,7 @@ export default function renderMenu() {
     } else {
       let currentProjects = Storage().fetchData("projects");
       renderProjects(currentProjects);
-      menu.appendChild(renderProjects(currentProjects).projects);
+      menu.appendChild(renderProjects(currentProjects).projectUL);
       menuIsClicked = true;
     }
   });
