@@ -1,16 +1,19 @@
 import { Project } from "../AppLogic/Project";
 
 export default function renderProjects(projectsList: Project[]) {
-    const content = document.getElementById('projects')
-    const projects = document.createElement('ul');
-    content.appendChild(projects);
-    // we check if list is null in index so assume not null
-    projectsList.map(project => {
-        let projectHTML = `
-        <li id="${project.projectID}">${project.title}</li>
+  const projects = document.createElement("div");
+  const projectUL = document.createElement("ul");
+
+  // we check if list is null in index so assume not null
+  projectsList.map((project) => {
+    let projectHTML = `
+        <h2>Projects</h2>
+        <li id="${project.title}">${project.title}</li>
         `;
-        projects.innerHTML += projectHTML;
-        
-    })
-    
+    projectUL.innerHTML += projectHTML;
+  });
+
+  projects.appendChild(projectUL);
+
+  return { projects };
 }
