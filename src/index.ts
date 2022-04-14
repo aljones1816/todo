@@ -1,26 +1,50 @@
-import { renderNav, renderProjects, renderNewToDoButton, rendertodolist, renderNewToDoForm } from './domUpdater';
-import { toggleProjectMenu } from './appLogic'
-import '/src/projectsStyles.css';
-import { createProject, createToDo, fetchData, putData } from './appLogic';
+import renderMenu from "./UI/menu";
+import createUser from "./AppLogic/User";
+import { Storage } from "./AppLogic/Storage";
+import renderProjects from "./UI/projects";
+import rendertodolist from "./UI/todolist";
+import { createProject, Project } from "./AppLogic/Project";
+import "./globalStyles.css";
+import createToDo from "./AppLogic/ToDo";
 
 function initalizeApp() {
-    // render the navbar
-    renderNav();
+  // let testProj = createProject("My 3rd Project", "three", [
+  //   createToDo(
+  //     "one",
+  //     "test todo",
+  //     "test todo description",
+  //     "test todo due date",
+  //     "test todo priority",
+  //     "three",
+  //     "test todo status"
+  //   ),
+  // ]);
 
-    const currentProjects = fetchData("projects")
-    renderProjects(currentProjects);
-    rendertodolist(currentProjects, 'three');
-    
-    document.getElementById("menuBar").addEventListener("click", () => {
-        toggleProjectMenu();
-    })
+  // Storage().putData("projects", testProj);
+  const currentProjects = Storage().fetchData("projects");
 
-    renderNewToDoButton();
-    
-    document.getElementById("newtodo").addEventListener("click", () => {
-        renderNewToDoForm();
-    })
+  // render the navbar
+  const app = document.getElementById("app");
+  app.appendChild(renderMenu().menu);
 
+  renderProjects(currentProjects);
+
+  const ToDoListHeader = "All ToDos";
+
+  // initially render all todos
+  let allIds: string[] = [];
+
+  currentProjects.forEach((project: Project) => {
+    allIds.push(project.projectID);
+  });
+
+  app.appendChild(
+    rendertodolist(
+      currentProjects,
+      allIds,
+      ToDoListHeader
+    ).generateToDoListHTML().todolist
+  );
 }
 
 initalizeApp();
