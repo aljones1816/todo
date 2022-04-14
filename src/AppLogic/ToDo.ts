@@ -1,10 +1,10 @@
 export interface ToDo {
-    toDoID: string;
     title: string;
     description: string;
     dueDate: string;
     priority: string;
     status: string;
+    projectID: string;
     getToDoID: () => string;
 
 }
@@ -18,11 +18,13 @@ export default function createToDo(
     dueDate: string,
     priority: string,
     projectID: string,
+    status: string
 ) {
+    todoID;
 
     function getToDoID() {
         return todoID;
     }
     
-    return {getToDoID, title, description, dueDate, priority, projectID};
+    return {title, description, dueDate, priority, projectID, status, getToDoID};
 }

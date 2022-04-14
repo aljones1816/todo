@@ -5,14 +5,22 @@ export default function rendertodolist(
   projectArray: Project[],
   projectID: string
 ) {
+
+  projectArray.forEach((project) => {
+    console.log(project.getProjectID());
+  });
   //filter project array to only include project with id = projectID
-  let projects = projectArray.filter(
-    (project) => project.projectID === projectID
+  let project = projectArray.filter(
+    (project) => project.getProjectID() === projectID
+    
   );
+
+  
+  
 
   function generateToDoHTML(todoObject: ToDo) {
     let todohtml = `
-        <div class="todo" id="${todoObject.toDoID}">
+        <div class="todo" id="${todoObject.getToDoID}">
             <p>${todoObject.title}</p>
             <p>${todoObject.dueDate}</p>
             <p>${todoObject.status}</p>
@@ -20,6 +28,24 @@ export default function rendertodolist(
         `;
 
     return todohtml;
+  }
+
+  function generateToDoListHTML() {
+   
+    let todolist = document.createElement("div");
+    let todolistUL = document.createElement("ul");
+    let header = document.createElement("h2");
+    header.innerText = "To Do List";
+    todolist.appendChild(header);
+
+    project[0].ToDos.map((todo) => {
+      let todohtml = generateToDoHTML(todo);
+      todolistUL.innerHTML += todohtml;
+    });
+
+    todolist.appendChild(todolistUL);
+
+    return { todolist };
   }
 
   function renderNewToDoForm() {
@@ -52,13 +78,5 @@ export default function rendertodolist(
     content.innerHTML += buttonHTML;
   }
 
-  let content = document.getElementById("content");
-  projects.map((project) => {
-    project.ToDos.map((todo) => {
-      let todohtml = generateToDoHTML(todo);
-      content.innerHTML += todohtml;
-    });
-  });
-
-  return { renderNewToDoForm, renderNewToDoButton };
+  return { renderNewToDoForm, renderNewToDoButton, generateToDoListHTML };
 }
