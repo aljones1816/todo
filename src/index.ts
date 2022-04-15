@@ -1,6 +1,6 @@
 import renderMenu from "./UI/menu";
 import createUser from "./AppLogic/User";
-import { Storage } from "./AppLogic/Storage";
+import { Storage } from "./AppLogic/DataHandler";
 import renderProjects from "./UI/projects";
 import rendertodolist from "./UI/todolist";
 import { createProject, Project } from "./AppLogic/Project";

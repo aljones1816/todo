@@ -1,27 +1,28 @@
 import { ToDo } from "./ToDo";
 
 export interface Project {
-  projectID: string;
   title: string;
   ToDos: ToDo[];
   getProjectID: () => string;
-  addToDo: () => void;
-  deleteToDo: () => void;
+  addToDo: (todo: ToDo) => void;
+  deleteToDo: (todoID: string) => void;
 }
 
-export function createProject(title: string, projectID: string, ToDos: ToDo[]) {
-  projectID;
-
+export function createProject(projectID: string, title: string, ToDos: ToDo[]) {
   function addToDo(todo: ToDo) {
     ToDos.push(todo);
+    return;
   }
+  projectID;
+  const getProjectID = () => projectID;
 
-  function DeleteToDo(todoID: string) {
+  function deleteToDo(todoID: string) {
     let index = ToDos.findIndex(function (ToDo) {
       return ToDo.getToDoID() === todoID;
     });
     ToDos.splice(index, 1);
+    return;
   }
 
-  return { title, ToDos, addToDo, DeleteToDo, projectID };
+  return { title, ToDos, getProjectID, addToDo, deleteToDo };
 }

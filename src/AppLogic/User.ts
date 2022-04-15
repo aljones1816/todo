@@ -1,36 +1,49 @@
-import {Storage} from "./Storage";
+import { Project, createProject } from "./Project";
+import { DataHandler } from "./DataHandler";
+import { ToDo } from "./ToDo";
 
-export interface User {
-    username: string;
-    password: string;
-    
-  }
+interface User {
+  getUsername: () => string;
+  getPassword: () => string;
+  getUserID: () => string;
+  newProject: (title: string, todos: ToDo[]) => void;
+  deleteProject: (projectID: string) => void;
+}
 
-  export default function createUser(username: string, password: string) {
-    
-    function handleRegisterUser() {
-    let currentUsers: User[];
-    if (Storage().fetchData("users")) {
-      currentUsers = Storage().fetchData("users");
-    } else {
-      currentUsers = [];
-    }
-    let user = currentUsers.find(function (user: User) {
-      return user.username === username;
+// function will instantiate a new user object with an empty array of projects by default
+const createUser = (
+  userID: string,
+  username: string,
+  password: string,
+  projects: Project[] = []
+) => {
+  userID;
+  username;
+  password;
+  projects;
+
+  const newProject = (title: string, todos: ToDo[] = []) => {
+    const project = createProject(title, DataHandler().generateUUID(), todos);
+    projects.push(project);
+
+    DataHandler().updateUsersProjects(userID, projects);
+    return;
+  };
+
+  const deleteProject = (projectID: string) => {
+    let index = projects.findIndex(function (project: Project) {
+      return project.getProjectID() === projectID;
     });
-    if (user) {
-      return false;
-    } else {
-      let newUser = {
-        username,
-        password,
-      };
-      currentUsers.push(newUser);
-      Storage().putData("users", currentUsers);
-      return true;
-    }
-    }
+    projects.splice(index, 1);
+    // TODO remove project from localstorage users.user.projects
+    DataHandler().updateUsersProjects(userID, projects);
+  };
 
-    return {handleRegisterUser}
-    
-  }
+  const getUsername = () => username;
+  const getPassword = () => password;
+  const getUserID = () => userID;
+
+  return { getUsername, getPassword, getUserID, newProject, deleteProject };
+};
+
+export { User, createUser };
