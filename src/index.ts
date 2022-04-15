@@ -47,12 +47,13 @@ function initalizeApp() {
     const password = passwordInput.value;
 
     const guy = DataHandler().handleUserLogin(username, password);
-    if (guy) {
+    console.log(guy);
+    if (guy != 4 && guy != 5) {
       usernameAlert.innerText = "";
       usernameAlert.innerText = `Welcome ${guy.username}!`;
       usernameInput.value = "";
       passwordInput.value = "";
-    } else {
+    } else if (guy === 4) {
       usernameAlert.innerText = "";
       usernameAlert.innerText = "No user with that name bud!";
       const registerButton = document.createElement("button");
@@ -67,6 +68,9 @@ function initalizeApp() {
         usernameAlert.innerText = "";
         usernameAlert.innerText = `Welcome ${username}!`;
       });
+    } else {
+      usernameAlert.innerText = "";
+      usernameAlert.innerText = `Wrong Password buttface!`;
     }
   });
 }

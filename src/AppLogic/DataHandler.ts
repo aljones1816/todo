@@ -22,7 +22,7 @@ const DataHandler = () => {
     // return false if activeUserID is not in users
     if (!fetchedData.some((user: JSONUser) => user.username === username)) {
       // TODO return an error instead of false so we can prompt users to sign up
-      return false;
+      return 4;
     } else if (
       // case when user input wrong password
       fetchedData.some(
@@ -31,7 +31,7 @@ const DataHandler = () => {
       )
     ) {
       // TODO return an error instead of false so we can let user know their password is wrong
-      return false;
+      return 5;
     } else {
       const userJSON = fetchedData.find(
         (user: JSONUser) => user.username === username
