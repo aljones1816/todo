@@ -33,15 +33,15 @@ const DataHandler = () => {
       // TODO return an error instead of false so we can let user know their password is wrong
       return false;
     } else {
-      handleSetActiveUser(username);
-
       const userJSON = fetchedData.find(
         (user: JSONUser) => user.username === username
       );
+      handleSetActiveUser(userJSON.userID);
+
       // return a user object with the required methods since JSON stores only text
       // case when projects exist
       if (userJSON.projects.length != 0) {
-        createUser(
+        return createUser(
           userJSON.userID,
           userJSON.username,
           userJSON.password,
@@ -83,7 +83,11 @@ const DataHandler = () => {
         );
       } else {
         // case when no projects exist
-        createUser(userJSON.userID, userJSON.username, userJSON.password);
+        return createUser(
+          userJSON.userID,
+          userJSON.username,
+          userJSON.password
+        );
       }
     }
   };
@@ -92,8 +96,8 @@ const DataHandler = () => {
     window.localStorage.removeItem("activeUser");
   };
 
-  const handleSetActiveUser = (username: string) => {
-    JSON.stringify(window.localStorage.setItem("activeUser", username));
+  const handleSetActiveUser = (userID: string) => {
+    JSON.stringify(window.localStorage.setItem("activeUser", userID));
   };
 
   const generateUUID = () => {
@@ -111,7 +115,12 @@ const DataHandler = () => {
     let users = fetchUsers();
     let userID = generateUUID();
     let newUser = createUser(userID, userName, password);
-    users.push(newUser);
+    // check if user already exists
+    if (users.some((user: JSONUser) => user.username === userName)) {
+      return false;
+    } else {
+      users.push(newUser);
+    }
     window.localStorage.setItem("users", JSON.stringify(users));
     return newUser;
   };

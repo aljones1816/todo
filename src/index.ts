@@ -1,50 +1,74 @@
-import renderMenu from "./UI/menu";
-import createUser from "./AppLogic/User";
-import { Storage } from "./AppLogic/DataHandler";
-import renderProjects from "./UI/projects";
-import rendertodolist from "./UI/todolist";
-import { createProject, Project } from "./AppLogic/Project";
-import "./globalStyles.css";
-import createToDo from "./AppLogic/ToDo";
+import { DataHandler } from "./AppLogic/DataHandler";
 
 function initalizeApp() {
-  // let testProj = createProject("My 3rd Project", "three", [
-  //   createToDo(
-  //     "one",
-  //     "test todo",
-  //     "test todo description",
-  //     "test todo due date",
-  //     "test todo priority",
-  //     "three",
-  //     "test todo status"
-  //   ),
-  // ]);
-
-  // Storage().putData("projects", testProj);
-  const currentProjects = Storage().fetchData("projects");
-
-  // render the navbar
   const app = document.getElementById("app");
-  app.appendChild(renderMenu().menu);
 
-  renderProjects(currentProjects);
+  // create a form to login a new user
+  const loginForm = document.createElement("form");
+  loginForm.id = "loginForm";
 
-  const ToDoListHeader = "All ToDos";
+  const loginHeading = document.createElement("h2");
+  loginHeading.innerText = "login";
 
-  // initially render all todos
-  let allIds: string[] = [];
+  loginForm.appendChild(loginHeading);
 
-  currentProjects.forEach((project: Project) => {
-    allIds.push(project.projectID);
+  const usernameLabel = document.createElement("label");
+  usernameLabel.innerText = "Username: ";
+
+  const usernameInput = document.createElement("input");
+  usernameInput.type = "text";
+  usernameInput.id = "usernameInput";
+
+  const passwordLabel = document.createElement("label");
+  passwordLabel.innerText = "Password: ";
+
+  const passwordInput = document.createElement("input");
+  passwordInput.type = "password";
+  passwordInput.id = "passwordInput";
+
+  const loginButton = document.createElement("button");
+  loginButton.innerText = "login";
+  loginButton.id = "loginButton";
+
+  loginForm.appendChild(usernameLabel);
+  loginForm.appendChild(usernameInput);
+  loginForm.appendChild(passwordLabel);
+  loginForm.appendChild(passwordInput);
+  loginForm.appendChild(loginButton);
+
+  const usernameAlert = document.createElement("p");
+
+  app.appendChild(loginForm);
+  app.appendChild(usernameAlert);
+
+  loginButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+
+    const guy = DataHandler().handleUserLogin(username, password);
+    if (guy) {
+      usernameAlert.innerText = "";
+      usernameAlert.innerText = `Welcome ${guy.username}!`;
+      usernameInput.value = "";
+      passwordInput.value = "";
+    } else {
+      usernameAlert.innerText = "";
+      usernameAlert.innerText = "No user with that name bud!";
+      const registerButton = document.createElement("button");
+      registerButton.innerText = "register a new user instead";
+      registerButton.id = "registerButton";
+      usernameAlert.appendChild(registerButton);
+
+      registerButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        DataHandler().handleRegisterUser(username, password);
+        DataHandler().handleUserLogin(username, password);
+        usernameAlert.innerText = "";
+        usernameAlert.innerText = `Welcome ${username}!`;
+      });
+    }
   });
-
-  app.appendChild(
-    rendertodolist(
-      currentProjects,
-      allIds,
-      ToDoListHeader
-    ).generateToDoListHTML().todolist
-  );
 }
 
 initalizeApp();

@@ -6,6 +6,7 @@ interface User {
   getUsername: () => string;
   getPassword: () => string;
   getUserID: () => string;
+  getProjects: () => Project[];
   newProject: (title: string, todos: ToDo[]) => void;
   deleteProject: (projectID: string) => void;
 }
@@ -34,11 +35,20 @@ const createUser = (
     projects.splice(index, 1);
   };
 
+  const getProjects = () => projects;
+
   const getUsername = () => username;
   const getPassword = () => password;
   const getUserID = () => userID;
 
-  return { getUsername, getPassword, getUserID, newProject, deleteProject };
+  return {
+    username,
+    password,
+    userID,
+    newProject,
+    deleteProject,
+    projects,
+  };
 };
 
 export { User, createUser };
