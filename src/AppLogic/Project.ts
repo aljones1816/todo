@@ -8,7 +8,11 @@ export interface Project {
   deleteToDo: (todoID: string) => void;
 }
 
-export function createProject(projectID: string, title: string, ToDos: ToDo[]) {
+export function createProject(
+  projectID: string,
+  title: string,
+  ToDos: ToDo[] = []
+) {
   function addToDo(todo: ToDo) {
     ToDos.push(todo);
     return;
@@ -18,7 +22,7 @@ export function createProject(projectID: string, title: string, ToDos: ToDo[]) {
 
   function deleteToDo(todoID: string) {
     let index = ToDos.findIndex(function (ToDo) {
-      return ToDo.getToDoID() === todoID;
+      return ToDo.todoID === todoID;
     });
     ToDos.splice(index, 1);
     return;

@@ -1,5 +1,6 @@
 import { createProject, Project } from "./Project";
 import { User, createUser } from "./User";
+import { createToDo, ToDo } from "./ToDo";
 
 interface JSONUser {
   userID: string;
@@ -30,12 +31,52 @@ const DataHandler = () => {
         (user: JSONUser) => user.username === username
       );
       // return a user object with the required methods since JSON stores only text
-      return createUser(
-        userJSON.userID,
-        userJSON.username,
-        userJSON.password,
-        userJSON.projects
-      );
+      // case when projects exist
+      if (userJSON.projects.length != 0) {
+        createUser(
+          userJSON.userID,
+          userJSON.username,
+          userJSON.password,
+          userJSON.projects.map(
+            (project: {
+              projectID: string;
+              title: string;
+              ToDos: {
+                todoID: string;
+                title: string;
+                description: string;
+                dueDate: string;
+                priority: string;
+                status: string;
+              }[];
+            }) => {
+              // case when project has todos
+              if (project.ToDos.length != 0) {
+                createProject(
+                  project.title,
+                  project.projectID,
+                  project.ToDos.map((todo) => {
+                    return createToDo(
+                      todo.title,
+                      todo.description,
+                      todo.dueDate,
+                      todo.priority,
+                      todo.status,
+                      todo.todoID
+                    );
+                  })
+                );
+              } else {
+                // case when project has no todos
+                createProject(project.title, project.projectID);
+              }
+            }
+          )
+        );
+      } else {
+        // case when no projects exist
+        createUser(userJSON.userID, userJSON.username, userJSON.password);
+      }
     }
   };
 
