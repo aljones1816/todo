@@ -3,6 +3,7 @@ import {Storage} from "./Storage";
 export interface User {
     username: string;
     password: string;
+    
   }
 
   export default function createUser(username: string, password: string) {
