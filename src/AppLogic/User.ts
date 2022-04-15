@@ -25,9 +25,6 @@ const createUser = (
   const newProject = (title: string, todos: ToDo[] = []) => {
     const project = createProject(title, DataHandler().generateUUID(), todos);
     projects.push(project);
-
-    DataHandler().updateUsersProjects(userID, projects);
-    return;
   };
 
   const deleteProject = (projectID: string) => {
@@ -35,8 +32,6 @@ const createUser = (
       return project.getProjectID() === projectID;
     });
     projects.splice(index, 1);
-    // TODO remove project from localstorage users.user.projects
-    DataHandler().updateUsersProjects(userID, projects);
   };
 
   const getUsername = () => username;

@@ -9,8 +9,15 @@ interface JSONUser {
 }
 
 const DataHandler = () => {
+  /*this function will return an array containing all existing user objects, or any empty array if there are no users. 
+  Can substitute any fetching method here as long as it return the correct structure*/
+  const fetchUsers = () => {
+    return JSON.parse(localStorage.getItem("users") || "[]");
+  };
+
+  /* this function returns a user object containing an array of project objects, if any exist which contain arrays of todo objects, if any exist*/
   const handleUserLogin = (username: string, password: string) => {
-    let fetchedData = JSON.parse(window.localStorage.getItem("users") || "[]");
+    let fetchedData = fetchUsers();
 
     // return false if activeUserID is not in users
     if (!fetchedData.some((user: JSONUser) => user.username === username)) {
@@ -26,7 +33,8 @@ const DataHandler = () => {
       // TODO return an error instead of false so we can let user know their password is wrong
       return false;
     } else {
-      JSON.stringify(window.localStorage.setItem("activeUser", username));
+      handleSetActiveUser(username);
+
       const userJSON = fetchedData.find(
         (user: JSONUser) => user.username === username
       );
@@ -84,6 +92,10 @@ const DataHandler = () => {
     window.localStorage.removeItem("activeUser");
   };
 
+  const handleSetActiveUser = (username: string) => {
+    JSON.stringify(window.localStorage.setItem("activeUser", username));
+  };
+
   const generateUUID = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
@@ -96,7 +108,7 @@ const DataHandler = () => {
   };
 
   const handleRegisterUser = (userName: string, password: string) => {
-    let users = JSON.parse(window.localStorage.getItem("users") || "[]");
+    let users = fetchUsers();
     let userID = generateUUID();
     let newUser = createUser(userID, userName, password);
     users.push(newUser);
@@ -105,7 +117,7 @@ const DataHandler = () => {
   };
 
   const updateUsersProjects = (userID: string, updatedProjects: Project[]) => {
-    let users = JSON.parse(window.localStorage.getItem("users") || "[]");
+    let users = fetchUsers();
     users.find((user: JSONUser) => user.userID === userID).projects =
       updatedProjects;
     window.localStorage.setItem("users", JSON.stringify(users));
