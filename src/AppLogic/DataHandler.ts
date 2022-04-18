@@ -82,12 +82,13 @@ const DataHandler = () => {
           )
         );
       } else {
-        // case when no projects exist
-        return createUser(
+        const user: User = createUser(
           userJSON.userID,
           userJSON.username,
           userJSON.password
         );
+
+        return user;
       }
     }
   };
@@ -135,7 +136,19 @@ const DataHandler = () => {
   const checkForActiveUser = () => {
     let activeUser = window.localStorage.getItem("activeUser");
     if (activeUser) {
-      return activeUser;
+      const users = fetchUsers();
+
+      // create variable with a user object with an ID equal to the activeUser
+      const activeUserObject = users.find(
+        (user: JSONUser) => user.userID === activeUser
+      );
+      const user = handleUserLogin(
+        activeUserObject.username,
+        activeUserObject.password
+      );
+      if (user != 4 && user != 5) {
+        return user;
+      }
     } else {
       // TODO return error code so we can prompt a user to login
       return false;

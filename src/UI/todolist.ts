@@ -1,77 +1,146 @@
+import { createToDo, ToDo } from "../AppLogic/ToDo";
 import { Project } from "../AppLogic/Project";
-import { ToDo } from "../AppLogic/ToDo";
+import { DataHandler } from "../AppLogic/DataHandler";
+import { User } from "../AppLogic/User";
 
-export default function rendertodolist(
-  projectArray: Project[],
-  projectID: string[],
-  projectHeading: string
-) {
-  //filter project array to only include projects with id in the projectID array
-  let currentProjects = projectArray.filter(function (project) {
-    return projectID.includes(project.projectID);
+const generateToDoElement = (todo: ToDo) => {
+  const todoElement = document.createElement("div");
+  todoElement.id = todo.todoID;
+  todoElement.className = "todo";
+
+  const todoTitle = document.createElement("h3");
+  todoTitle.innerText = todo.title;
+
+  const todoDescription = document.createElement("p");
+  todoDescription.innerText = todo.description;
+
+  const todoDueDate = document.createElement("p");
+  todoDueDate.innerText = todo.dueDate;
+
+  const todoPriority = document.createElement("p");
+  todoPriority.innerText = todo.priority;
+
+  const todoStatus = document.createElement("p");
+  todoStatus.innerText = todo.status;
+
+  const todoEditButton = document.createElement("button");
+  todoEditButton.innerText = "edit";
+
+  const todoDeleteButton = document.createElement("button");
+  todoDeleteButton.innerText = "delete";
+
+  todoElement.appendChild(todoTitle);
+  todoElement.appendChild(todoDescription);
+  todoElement.appendChild(todoDueDate);
+  todoElement.appendChild(todoPriority);
+  todoElement.appendChild(todoStatus);
+  todoElement.appendChild(todoEditButton);
+  todoElement.appendChild(todoDeleteButton);
+
+  return todoElement;
+};
+
+const generatenewToDoForm = (user: User) => {
+  const newToDoForm = document.createElement("form");
+  newToDoForm.id = "newToDoForm";
+
+  const newToDoTitleLabel = document.createElement("label");
+  newToDoTitleLabel.innerText = "Title: ";
+
+  const newToDoTitleInput = document.createElement("input");
+  newToDoTitleInput.type = "text";
+  newToDoTitleInput.id = "newToDoTitleInput";
+
+  const newToDoDescriptionLabel = document.createElement("label");
+  newToDoDescriptionLabel.innerText = "Description: ";
+
+  const newToDoDescriptionInput = document.createElement("input");
+  newToDoDescriptionInput.type = "text";
+  newToDoDescriptionInput.id = "newToDoDescriptionInput";
+
+  const newToDoDueDateLabel = document.createElement("label");
+  newToDoDueDateLabel.innerText = "Due Date: ";
+
+  const newToDoDueDateInput = document.createElement("input");
+  newToDoDueDateInput.type = "text";
+  newToDoDueDateInput.id = "newToDoDueDateInput";
+
+  const newToDoPriorityLabel = document.createElement("label");
+  newToDoPriorityLabel.innerText = "Priority: ";
+
+  const newToDoPriorityInput = document.createElement("input");
+  newToDoPriorityInput.type = "text";
+  newToDoPriorityInput.id = "newToDoPriorityInput";
+
+  const newToDoStatusLabel = document.createElement("label");
+  newToDoStatusLabel.innerText = "Status: ";
+
+  const newToDoStatusInput = document.createElement("input");
+  newToDoStatusInput.type = "text";
+  newToDoStatusInput.id = "newToDoStatusInput";
+
+  const newToDoSubmitButton = document.createElement("button");
+  newToDoSubmitButton.innerText = "submit";
+  newToDoSubmitButton.id = "newToDoSubmitButton";
+
+  newToDoForm.appendChild(newToDoTitleLabel);
+
+  newToDoForm.appendChild(newToDoTitleInput);
+  newToDoForm.appendChild(newToDoDescriptionLabel);
+  newToDoForm.appendChild(newToDoDescriptionInput);
+  newToDoForm.appendChild(newToDoDueDateLabel);
+  newToDoForm.appendChild(newToDoDueDateInput);
+  newToDoForm.appendChild(newToDoPriorityLabel);
+  newToDoForm.appendChild(newToDoPriorityInput);
+  newToDoForm.appendChild(newToDoStatusLabel);
+  newToDoForm.appendChild(newToDoStatusInput);
+  newToDoForm.appendChild(newToDoSubmitButton);
+
+  newToDoSubmitButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const newToDo = createToDo(
+      DataHandler().generateUUID(),
+      newToDoTitleInput.value,
+      newToDoDescriptionInput.value,
+      newToDoDueDateInput.value,
+      newToDoPriorityInput.value,
+      newToDoStatusInput.value
+    );
+
+    user.projects[0].addToDo(newToDo);
+
+    DataHandler().updateUsersProjects(user.userID, user.projects);
   });
 
-  function generateToDoHTML(todoObject: ToDo) {
-    let todohtml = `
-        <div class="todo" id="${todoObject.getToDoID}">
-            <p>${todoObject.title}</p>
-            <p>${todoObject.dueDate}</p>
-            <p>${todoObject.status}</p>
-        </div>
-        `;
+  return newToDoForm;
+};
 
-    return todohtml;
-  }
-
-  function generateToDoListHTML() {
-    let todolist = document.createElement("div");
-    todolist.setAttribute("id", "toDoList");
-    let todolistUL = document.createElement("ul");
-    let header = document.createElement("h2");
-    header.innerText = projectHeading;
-    todolist.appendChild(header);
-
-    currentProjects.forEach((project) => {
-      project.ToDos.map((todo) => {
-        let todohtml = generateToDoHTML(todo);
-        todolistUL.innerHTML += todohtml;
+const renderToDoList = (user: User) => {
+  const app = document.getElementById("app");
+  let todoList = document.getElementById("todo-list");
+  if (todoList) {
+    todoList.innerHTML = "";
+    const title = document.createElement("h2");
+    title.innerText = user.projects[0].title;
+    todoList.appendChild(title);
+    if (user.projects[0].ToDos.length != 0) {
+      user.projects[0].ToDos.forEach((todo) => {
+        todoList.appendChild(generateToDoElement(todo));
       });
-
-      todolist.appendChild(todolistUL);
-    });
-
-    return { todolist };
+    }
+  } else {
+    todoList = document.createElement("div");
+    const title = document.createElement("h2");
+    title.innerText = user.projects[0].title;
+    todoList.appendChild(title);
+    if (user.projects[0].ToDos.length != 0) {
+      user.projects[0].ToDos.forEach((todo) => {
+        todoList.appendChild(generateToDoElement(todo));
+      });
+    }
   }
+  todoList.appendChild(generatenewToDoForm(user));
+  app.appendChild(todoList);
+};
 
-  function renderNewToDoForm() {
-    const content = document.getElementById("content");
-    let formHTML = `
-        <div class="newtodoform">
-            <form id="newtodoform">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Title">
-                <label for="duedate">Due Date</label>
-                <input type="date" id="duedate" name="duedate">
-                <label for="status">Status</label>
-                <select id="status" name="status">
-                    <option value="todo">To Do</option>
-                    <option value="inprogress">In Progress</option>
-                    <option value="done">Done</option>
-                </select>
-                <button id="submitNewToDo" type="submit">Submit</button>
-            </form>
-        </div>
-        `;
-    content.innerHTML += formHTML;
-  }
-
-  function renderNewToDoButton() {
-    const content = document.getElementById("content");
-    let buttonHTML = `
-        <svg id = "newtodo" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" fill="currentColor"><path d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-7v4a1 1 0 0 1-2 0v-4H5a1 1 0 0 1 0-2h4V5a1 1 0 1 1 2 0v4h4a1 1 0 0 1 0 2h-4z"></path></svg>
-        `;
-    content.innerHTML += buttonHTML;
-  }
-
-  return { renderNewToDoForm, renderNewToDoButton, generateToDoListHTML };
-}
+export { renderToDoList };

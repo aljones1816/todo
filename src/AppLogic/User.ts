@@ -3,10 +3,10 @@ import { DataHandler } from "./DataHandler";
 import { ToDo } from "./ToDo";
 
 interface User {
-  getUsername: () => string;
-  getPassword: () => string;
-  getUserID: () => string;
-  getProjects: () => Project[];
+  username: string;
+  password: string;
+  userID: string;
+  projects: Project[];
   newProject: (title: string, todos: ToDo[]) => void;
   deleteProject: (projectID: string) => void;
 }
@@ -24,22 +24,16 @@ const createUser = (
   projects;
 
   const newProject = (title: string, todos: ToDo[] = []) => {
-    const project = createProject(title, DataHandler().generateUUID(), todos);
+    const project = createProject(DataHandler().generateUUID(), title, todos);
     projects.push(project);
   };
 
   const deleteProject = (projectID: string) => {
     let index = projects.findIndex(function (project: Project) {
-      return project.getProjectID() === projectID;
+      return project.projectID === projectID;
     });
     projects.splice(index, 1);
   };
-
-  const getProjects = () => projects;
-
-  const getUsername = () => username;
-  const getPassword = () => password;
-  const getUserID = () => userID;
 
   return {
     username,

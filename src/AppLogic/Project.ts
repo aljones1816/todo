@@ -3,7 +3,7 @@ import { ToDo } from "./ToDo";
 export interface Project {
   title: string;
   ToDos: ToDo[];
-  getProjectID: () => string;
+  projectID: string;
   addToDo: (todo: ToDo) => void;
   deleteToDo: (todoID: string) => void;
 }
@@ -17,8 +17,6 @@ export function createProject(
     ToDos.push(todo);
     return;
   }
-  projectID;
-  const getProjectID = () => projectID;
 
   function deleteToDo(todoID: string) {
     let index = ToDos.findIndex(function (ToDo) {
@@ -28,5 +26,5 @@ export function createProject(
     return;
   }
 
-  return { title, ToDos, getProjectID, addToDo, deleteToDo };
+  return { title, ToDos, projectID, addToDo, deleteToDo };
 }

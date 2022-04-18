@@ -1,78 +1,30 @@
 import { DataHandler } from "./AppLogic/DataHandler";
+import { logincontainer } from "./UI/loginform";
+import { User } from "./AppLogic/User";
+import { renderToDoList } from "./UI/todolist";
+
+const handleLoginEvents = () => {};
 
 function initalizeApp() {
+  const activeUser = DataHandler().checkForActiveUser();
   const app = document.getElementById("app");
 
-  // create a form to login a new user
-  const loginForm = document.createElement("form");
-  loginForm.id = "loginForm";
+  const logoutButton = document.createElement("button");
+  logoutButton.innerText = "logout";
 
-  const loginHeading = document.createElement("h2");
-  loginHeading.innerText = "login";
-
-  loginForm.appendChild(loginHeading);
-
-  const usernameLabel = document.createElement("label");
-  usernameLabel.innerText = "Username: ";
-
-  const usernameInput = document.createElement("input");
-  usernameInput.type = "text";
-  usernameInput.id = "usernameInput";
-
-  const passwordLabel = document.createElement("label");
-  passwordLabel.innerText = "Password: ";
-
-  const passwordInput = document.createElement("input");
-  passwordInput.type = "password";
-  passwordInput.id = "passwordInput";
-
-  const loginButton = document.createElement("button");
-  loginButton.innerText = "login";
-  loginButton.id = "loginButton";
-
-  loginForm.appendChild(usernameLabel);
-  loginForm.appendChild(usernameInput);
-  loginForm.appendChild(passwordLabel);
-  loginForm.appendChild(passwordInput);
-  loginForm.appendChild(loginButton);
-
-  const usernameAlert = document.createElement("p");
-
-  app.appendChild(loginForm);
-  app.appendChild(usernameAlert);
-
-  loginButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    const username = usernameInput.value;
-    const password = passwordInput.value;
-
-    const guy = DataHandler().handleUserLogin(username, password);
-    console.log(guy);
-    if (guy != 4 && guy != 5) {
-      usernameAlert.innerText = "";
-      usernameAlert.innerText = `Welcome ${guy.username}!`;
-      usernameInput.value = "";
-      passwordInput.value = "";
-    } else if (guy === 4) {
-      usernameAlert.innerText = "";
-      usernameAlert.innerText = "No user with that name bud!";
-      const registerButton = document.createElement("button");
-      registerButton.innerText = "register a new user instead";
-      registerButton.id = "registerButton";
-      usernameAlert.appendChild(registerButton);
-
-      registerButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        DataHandler().handleRegisterUser(username, password);
-        DataHandler().handleUserLogin(username, password);
-        usernameAlert.innerText = "";
-        usernameAlert.innerText = `Welcome ${username}!`;
-      });
-    } else {
-      usernameAlert.innerText = "";
-      usernameAlert.innerText = `Wrong Password buttface!`;
-    }
+  logoutButton.addEventListener("click", (e) => {
+    DataHandler().handleUserLogout();
   });
+
+  if (activeUser) {
+    console.log(activeUser);
+    // activeUser.newProject("My first project", []);
+    // DataHandler().updateUsersProjects(activeUser.userID, activeUser.projects);
+    renderToDoList(activeUser);
+    app.appendChild(logoutButton);
+  } else {
+    app.appendChild(logincontainer);
+  }
 }
 
 initalizeApp();
