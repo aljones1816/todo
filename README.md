@@ -1,4 +1,5 @@
-# A simple ToDo list app built with Typescript and HTML/CSS and bundled using webpack.
+# ToDoIt
+A simple ToDo list app built with Typescript and HTML/CSS and bundled using webpack.
 
 ## Getting Started
 In the project directory run the following:
