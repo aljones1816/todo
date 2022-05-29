@@ -6,13 +6,13 @@ export default function rendertodolist(
   projectID: string[],
   projectHeading: string
 ) {
-  //filter project array to only include projects with id in the projectID array
-  let currentProjects = projectArray.filter(function (project) {
-    return projectID.includes(project.projectID);
-  });
+  // filter project array to only include projects with id in the projectID array
+  const currentProjects = projectArray.filter((project) =>
+    projectID.includes(project.projectID)
+  );
 
   function generateToDoHTML(todoObject: ToDo) {
-    let todohtml = `
+    const todohtml = `
         <div class="todo" id="${todoObject.getToDoID}">
             <p>${todoObject.title}</p>
             <p>${todoObject.dueDate}</p>
@@ -24,16 +24,16 @@ export default function rendertodolist(
   }
 
   function generateToDoListHTML() {
-    let todolist = document.createElement("div");
+    const todolist = document.createElement("div");
     todolist.setAttribute("id", "toDoList");
-    let todolistUL = document.createElement("ul");
-    let header = document.createElement("h2");
+    const todolistUL = document.createElement("ul");
+    const header = document.createElement("h2");
     header.innerText = projectHeading;
     todolist.appendChild(header);
 
     currentProjects.forEach((project) => {
       project.ToDos.map((todo) => {
-        let todohtml = generateToDoHTML(todo);
+        const todohtml = generateToDoHTML(todo);
         todolistUL.innerHTML += todohtml;
       });
 
@@ -45,7 +45,7 @@ export default function rendertodolist(
 
   function renderNewToDoForm() {
     const content = document.getElementById("content");
-    let formHTML = `
+    const formHTML = `
         <div class="newtodoform">
             <form id="newtodoform">
                 <label for="title">Title</label>
@@ -67,7 +67,7 @@ export default function rendertodolist(
 
   function renderNewToDoButton() {
     const content = document.getElementById("content");
-    let buttonHTML = `
+    const buttonHTML = `
         <svg id = "newtodo" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" fill="currentColor"><path d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-7v4a1 1 0 0 1-2 0v-4H5a1 1 0 0 1 0-2h4V5a1 1 0 1 1 2 0v4h4a1 1 0 0 1 0 2h-4z"></path></svg>
         `;
     content.innerHTML += buttonHTML;

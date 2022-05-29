@@ -32,7 +32,7 @@ function initalizeApp() {
   const ToDoListHeader = "All ToDos";
 
   // initially render all todos
-  let allIds: string[] = [];
+  const allIds: string[] = [];
 
   currentProjects.forEach((project: Project) => {
     allIds.push(project.projectID);
