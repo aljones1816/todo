@@ -21,7 +21,7 @@ function initalizeApp() {
   // ]);
 
   // Storage().putData("projects", testProj);
-  const currentProjects = Storage().fetchData("projects");
+  const currentProjects = Storage.readData("projects");
 
   // render the navbar
   const app = document.getElementById("app");

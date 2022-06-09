@@ -17,7 +17,7 @@ export default function renderMenu() {
       menu.innerHTML = menuHTML;
       menuIsClicked = false;
     } else {
-      let currentProjects = Storage().fetchData("projects");
+      let currentProjects = Storage.readData("projects");
       renderProjects(currentProjects);
       menu.appendChild(renderProjects(currentProjects).projectUL);
       menuIsClicked = true;

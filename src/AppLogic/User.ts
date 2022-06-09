@@ -1,16 +1,15 @@
-import {Storage} from "./Storage";
+import { Storage } from "./Storage";
 
 export interface User {
-    username: string;
-    password: string;
-  }
+  username: string;
+  password: string;
+}
 
-  export default function createUser(username: string, password: string) {
-    
-    function handleRegisterUser() {
+export default function createUser(username: string, password: string) {
+  function handleRegisterUser() {
     let currentUsers: User[];
-    if (Storage().fetchData("users")) {
-      currentUsers = Storage().fetchData("users");
+    if (Storage.readData("users")) {
+      currentUsers = Storage.readData("users");
     } else {
       currentUsers = [];
     }
@@ -25,11 +24,10 @@ export interface User {
         password,
       };
       currentUsers.push(newUser);
-      Storage().putData("users", currentUsers);
+      Storage.createData("users", currentUsers);
       return true;
     }
-    }
-
-    return {handleRegisterUser}
-    
   }
+
+  return { handleRegisterUser };
+}
