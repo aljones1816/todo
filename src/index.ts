@@ -1,8 +1,11 @@
-import { Storage } from "./AppLogic/Storage";
+import { Storage } from "./Components/AppLogic/Storage";
+import { toDo, generateToDoState } from "./Components/AppLogic/ToDo";
+import { Project, generateProjectState } from "./Components/AppLogic/Project";
 
 function initalizeApp() {
-  const projects = Storage.readData("projects");
-  console.log(projects);
+  // fetch the existing todos from local storage
+  const todosState = Storage.readData("todos");
+  console.log(todosState);
 }
 
 initalizeApp();

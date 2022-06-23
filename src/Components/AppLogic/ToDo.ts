@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export interface ToDo {
   title: string;
   description: string;
@@ -35,5 +37,26 @@ export const toDo = (toDoState: toDoState) => {
     status,
     projectID,
     getToDoID: () => ID,
+  };
+};
+
+export const generateToDoState = (
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: string,
+  status: string,
+  projectID: string
+): toDoState => {
+  const id = uuidv4();
+
+  return {
+    id,
+    title,
+    description,
+    dueDate,
+    priority,
+    status,
+    projectID,
   };
 };
