@@ -1,6 +1,6 @@
 import renderProjects from "./projects";
 import { Project } from "../AppLogic/Project";
-import { Storage } from "../AppLogic/Storage";
+import { Storage } from "../AppLogic/Storage.mjs";
 
 export default function renderMenu() {
   let menuIsClicked = false;

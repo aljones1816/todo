@@ -29,6 +29,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".mts", ".js"],
+    extensions: [".tsx", ".ts", ".mjs", ".mts", ".js"],
   },
 };
