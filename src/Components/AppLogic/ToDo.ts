@@ -1,6 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
-
-export interface ToDo {
+interface ToDo {
   title: string;
   description: string;
   dueDate: string;
@@ -20,7 +18,7 @@ interface toDoState {
   projectID: string;
 }
 
-export const toDo = (toDoState: toDoState) => {
+const toDo = (toDoState: toDoState): ToDo => {
   const ID = toDoState.id;
   const title = toDoState.title;
   const description = toDoState.description;
@@ -40,23 +38,4 @@ export const toDo = (toDoState: toDoState) => {
   };
 };
 
-export const generateToDoState = (
-  title: string,
-  description: string,
-  dueDate: string,
-  priority: string,
-  status: string,
-  projectID: string
-): toDoState => {
-  const id = uuidv4();
-
-  return {
-    id,
-    title,
-    description,
-    dueDate,
-    priority,
-    status,
-    projectID,
-  };
-};
+export { toDo, ToDo, toDoState };
